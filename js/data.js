@@ -3,6 +3,8 @@ window.PrionData = {
   foods: [
     { id: "salad", emoji: "🥗", name: "Garden salad", dose: 0, barrier: 0, risk: "safe",
       note: "Plants don't carry prion protein. Nothing to misfold." },
+    { id: "tofu", emoji: "🫘", name: "Tofu", dose: 0, barrier: 0, risk: "safe",
+      note: "Made from soybeans. Plants have no prion protein, so there's nothing that can misfold." },
     { id: "steak", emoji: "🥩", name: "Steak from a healthy cow", dose: 0, barrier: 0, risk: "safe",
       note: "Healthy beef contains no misfolded prions. This is what you're eating today." },
     { id: "bse_steak", emoji: "🍖", name: "Steak from a BSE cow", dose: 2e-9, barrier: 0.75, risk: "low",

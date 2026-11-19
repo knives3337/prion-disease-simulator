@@ -1,21 +1,21 @@
-# 🧬 Prion Disease Simulator
+# Prion Disease Simulator
 
 **Choose a meal and watch your own proteins misfold.**
 
 An interactive website about prion diseases: mad cow disease (BSE), variant Creutzfeldt-Jakob disease (vCJD), chronic wasting disease and scrapie. Pick something to eat and the simulator follows the misfolded prion protein from your gut, through your lymph tissue and nerves, into your brain. You can zoom in from brain tissue down to single molecules and watch healthy proteins get refolded.
 
-**▶ Live site:** https://knives3337.github.io/prion-disease-simulator/
+**Live site:** https://knives3337.github.io/prion-disease-simulator/
 
 ## Features
 
 | | |
 |---|---|
-| 🍔 **Meal picker** | Salad, healthy steak, BSE-infected beef (muscle, burger, brain), CWD venison, scrapie lamb |
-| 🧬 **Genetics** | PRNP codon 129 genotype (MM / MV / VV) changes how fast the disease takes hold |
-| 🗺️ **Body map** | Gut → Peyer's patches → tonsils/spleen → vagus nerve → brainstem → thalamus, cerebellum, cortex |
-| 🔬 **Microscope** | Three magnifications: **Molecules** (α-helix proteins turning into β-sheet clumps), **Brain tissue** (H&E-style section that turns spongy, with florid plaques and neuron loss), **Single protein** (one PrP docking onto a fibril and refolding) |
-| ⏱️ **Timeline** | Play, pause and scrub through decades; the story panel explains each stage and its symptoms |
-| 📈 **Graphs** | Live misfolding per body region (log scale), neuron health, which proteins misfold the most, where PrP builds up, helix → sheet structure change, UK vCJD deaths |
+| **Meal picker** | Salad, tofu, healthy steak, BSE-infected beef (muscle, burger, brain), CWD venison, scrapie lamb |
+| **Genetics** | PRNP codon 129 genotype (MM / MV / VV) changes how fast the disease takes hold |
+| **Body map** | Gut → Peyer's patches → tonsils/spleen → vagus nerve → brainstem → thalamus, cerebellum, cortex |
+| **Microscope** | Three magnifications: **Molecules** (α-helix proteins turning into β-sheet clumps), **Brain tissue** (H&E-style section that turns spongy, with florid plaques and neuron loss), **Single protein** (one PrP docking onto a fibril and refolding) |
+| **Timeline** | Play, pause and scrub through decades; the story panel explains each stage and its symptoms |
+| **Graphs** | Live misfolding per body region (log scale), neuron health, which proteins misfold the most, where PrP builds up, helix → sheet structure change, UK vCJD deaths |
 
 Shareable links: `index.html#food=bse_brain&genotype=MV&meals=5&t=120&view=tissue&region=cortex`
 

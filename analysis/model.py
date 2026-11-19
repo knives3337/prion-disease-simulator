@@ -51,6 +51,7 @@ EXTINCT = 1e-14
 
 FOODS = {
     "salad":        {"label": "Garden salad",                         "dose": 0.0,  "barrier": 0.0},
+    "tofu":         {"label": "Tofu",                                 "dose": 0.0,  "barrier": 0.0},
     "steak":        {"label": "Steak from a healthy cow",             "dose": 0.0,  "barrier": 0.0},
     "bse_steak":    {"label": "Steak from a BSE cow (muscle)",        "dose": 2e-9, "barrier": 0.75},
     "bse_burger":   {"label": "Burger with BSE nervous tissue",       "dose": 2e-6, "barrier": 0.75},
