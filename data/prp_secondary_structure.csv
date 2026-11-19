@@ -1,0 +1,3 @@
+form,alpha_helix_pct,beta_sheet_pct,source
+PrP^C (normal),42,3,"Pan et al. 1993, PNAS 90:10962"
+PrP^Sc (misfolded),30,43,"Pan et al. 1993, PNAS 90:10962"

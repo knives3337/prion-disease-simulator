@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Prion Disease Simulator</title>
+  <meta name="description" content="Choose a meal and watch prion proteins misfold, spread from gut to brain, and change over time.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧬</text></svg>">
+</head>
+<body>
+  <header class="hero">
+    <div class="wrap">
+      <p class="eyebrow">Prion Disease Simulator</p>
+      <h1>What happens when one protein folds the wrong way?</h1>
+      <p class="lede">Prions are your own proteins, bent into the wrong shape. A misfolded one can force healthy copies to
+        misfold too, a chain reaction that can run silently for a decade before it reaches the brain.
+        Pick a meal and watch it happen.</p>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <!-- STEP 1: MEAL -->
+    <section class="panel" id="meal">
+      <div class="panel-head">
+        <h2><span class="step">1</span> Choose what to eat</h2>
+      </div>
+      <div class="foods" id="foods" role="radiogroup" aria-label="Food"></div>
+
+      <div class="options">
+        <label class="field">
+          <span>Your PRNP gene, codon 129
+            <button class="info" type="button" data-tip="Everyone carries two copies of the prion gene. At position 129 each copy codes methionine (M) or valine (V). Almost every clinical vCJD case so far has been MM.">?</button>
+          </span>
+          <select id="genotype">
+            <option value="MM">MM: about 40% of people</option>
+            <option value="MV">MV: about 50% of people</option>
+            <option value="VV">VV: about 10% of people</option>
+          </select>
+        </label>
+        <label class="field">
+          <span>How many times you eat it: <b id="mealsOut">1</b></span>
+          <input type="range" id="meals" min="1" max="100" value="1">
+        </label>
+        <button class="btn primary" id="eat" type="button">Eat it &amp; start the clock</button>
+      </div>
+      <p class="food-note" id="foodNote"></p>
+    </section>
+
+    <!-- STEP 2: SIMULATION -->
+    <section class="panel" id="sim">
+      <div class="panel-head">
+        <h2><span class="step">2</span> Watch the proteins</h2>
+        <div class="clock" id="clock">Not started</div>
+      </div>
+
+      <div class="stats">
+        <div class="stat"><span class="stat-label">Brain PrP misfolded</span><span class="stat-value" id="statBrain">0%</span></div>
+        <div class="stat"><span class="stat-label">Healthy neurons</span><span class="stat-value" id="statHealth">100%</span></div>
+        <div class="stat"><span class="stat-label">Stage</span><span class="stat-value small" id="statStage">Healthy</span></div>
+      </div>
+
+      <div class="sim-grid">
+        <div class="bodymap card">
+          <div class="card-title">Where the prions are <span class="muted">· click a spot to look closer</span></div>
+          <svg id="body" viewBox="0 0 260 420" role="img" aria-label="Body map showing prion spread"></svg>
+          <div class="scale-legend">
+            <span>none</span><i class="scale-bar"></i><span>100%</span>
+          </div>
+        </div>
+
+        <div class="scope card">
+          <div class="scope-head">
+            <div class="tabs" role="tablist">
+              <button role="tab" class="tab active" data-view="molecules">Molecules</button>
+              <button role="tab" class="tab" data-view="tissue">Brain tissue</button>
+              <button role="tab" class="tab" data-view="protein">Single protein</button>
+            </div>
+            <label class="zoom">🔍 <input type="range" id="zoom" min="1" max="4" step="0.05" value="1" aria-label="Magnification"></label>
+          </div>
+          <canvas id="scope" width="720" height="460"></canvas>
+          <div class="scope-foot">
+            <span id="scopeRegion">Thalamus</span>
+            <span id="scopeInfo" class="muted"></span>
+          </div>
+          <div class="key">
+            <span><i class="dot normal"></i>PrPᶜ (normal, α-helices)</span>
+            <span><i class="dot bad"></i>PrPˢᶜ (misfolded, β-sheets)</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline">
+        <button class="btn icon" id="play" type="button" aria-label="Play">▶</button>
+        <input type="range" id="scrub" min="0" max="240" value="0" aria-label="Time">
+        <select id="speed" aria-label="Speed">
+          <option value="1">1 month/s</option>
+          <option value="3">3 months/s</option>
+          <option value="6" selected>6 months/s</option>
+          <option value="12">1 year/s</option>
+          <option value="24">2 years/s</option>
+        </select>
+      </div>
+
+      <div class="story" id="story" aria-live="polite"></div>
+
+      <div class="card chart-card">
+        <div class="card-title">Misfolded protein by body region <span class="muted">· log scale, each gridline = 10× more</span></div>
+        <div id="regionChart" class="chart"></div>
+        <div class="card-title sub">Healthy neurons</div>
+        <div id="healthChart" class="chart short"></div>
+      </div>
+    </section>
+
+    <!-- STEP 3: GRAPHS -->
+    <section class="panel" id="graphs">
+      <div class="panel-head"><h2><span class="step">3</span> Graphs</h2></div>
+      <div class="graph-grid">
+        <div class="card wide">
+          <div class="card-title">Which proteins misfold the most?</div>
+          <p class="muted small">Approximate people affected worldwide by diseases where each protein misfolds (log scale).
+            The prion protein is rare but the only one proven to spread between people and animals by eating.</p>
+          <div id="proteinChart" class="chart"></div>
+        </div>
+        <div class="card">
+          <div class="card-title">Where misfolded PrP builds up most</div>
+          <p class="muted small">At the end of your current simulation.</p>
+          <div id="regionBars" class="chart"></div>
+        </div>
+        <div class="card">
+          <div class="card-title">Misfolding turns helices into sheets</div>
+          <p class="muted small">Share of the prion protein's structure (Pan et al. 1993).</p>
+          <div id="structChart" class="chart"></div>
+        </div>
+        <div class="card wide">
+          <div class="card-title">Variant CJD deaths in the UK</div>
+          <p class="muted small">Definite and probable cases from the UK National CJD Research &amp; Surveillance Unit. 178 in total.</p>
+          <div id="vcjdChart" class="chart"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LEARN -->
+    <section class="panel learn" id="learn">
+      <div class="panel-head"><h2>How it works</h2></div>
+      <div class="learn-grid">
+        <article><h3>A shape, not a germ</h3>
+          <p>Prions contain no DNA or RNA. A prion is the protein PrP folded wrong: its spiral α-helices flatten into
+            β-sheets. Those sheets stick together and act as a template, so every healthy PrP that touches them gets
+            refolded the same bad way.</p></article>
+        <article><h3>Why the brain gets spongy</h3>
+          <p>Misfolded PrP piles up into plaques and fibrils, and neurons die. The dead cells leave tiny holes, which
+            is why the diseases are called <em>spongiform encephalopathies</em>.</p></article>
+        <article><h3>Cooking doesn't help</h3>
+          <p>Prions survive boiling, frying, freezing, radiation and most disinfectants. That's why the UK and EU
+            ban the highest-risk tissues (brain, spinal cord) from the food chain.</p></article>
+        <article><h3>Today it's very rare</h3>
+          <p>After the BSE crisis, feed bans and tissue controls ended the epidemic. The UK recorded 178 vCJD
+            deaths, peaking in 2000. Most CJD today is <em>sporadic</em>, about 1–2 cases per million people a year,
+            and has nothing to do with diet.</p></article>
+      </div>
+      <p class="disclaimer">Educational model only. The rate constants are tuned to match published time ranges
+        (vCJD incubation of roughly a decade and an illness of about 14 months). They aren't measured biology, and
+        the model isn't medical advice.</p>
+    </section>
+  </main>
+
+  <footer class="wrap foot">
+    <span>Prion Disease Simulator · open source · <a href="https://github.com/knives3337/prion-disease-simulator">GitHub</a></span>
+  </footer>
+
+  <div class="tooltip" id="tooltip" role="tooltip"></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/model.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/microscope.js"></script>
+  <script src="js/bodymap.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

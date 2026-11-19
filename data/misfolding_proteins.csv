@@ -1,0 +1,8 @@
+protein,diseases,approx_people_affected,metric,source
+Amyloid-beta,Alzheimer's disease,32000000,people living with Alzheimer's dementia worldwide,"Gustavsson et al. 2023, Alzheimer's & Dementia 19:658"
+Tau,"Alzheimer's disease, frontotemporal dementia, PSP, CBD, CTE",32000000,lower bound (Alzheimer's dementia alone; tau also misfolds in other tauopathies),"Gustavsson et al. 2023, Alzheimer's & Dementia 19:658"
+Alpha-synuclein,"Parkinson's disease, dementia with Lewy bodies, MSA",8500000,people living with Parkinson's disease worldwide (2019),WHO Parkinson disease fact sheet (2023)
+TDP-43,"ALS (~97% of cases), frontotemporal dementia, LATE",340000,ALS prevalence ~4.4 per 100k x ~97% with TDP-43 pathology,"Xu et al. 2020, J Neurol 267:944; Neumann et al. 2006, Science 314:130"
+Huntingtin,Huntington's disease,210000,prevalence ~2.7 per 100k (highest in European populations),"Pringsheim et al. 2012, Mov Disord 27:1083"
+SOD1,Familial ALS,7000,roughly 2% of ALS cases,"Rosen et al. 1993, Nature 362:59 (approximate share)"
+Prion protein (PrP),"CJD (sporadic, genetic, variant), GSS, fatal familial insomnia, kuru",10000,new cases per year (incidence ~1-2 per million per year),"WHO; Uttley et al. 2020, Lancet Infect Dis 20:e2"
